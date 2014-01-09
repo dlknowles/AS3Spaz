@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<TextureAtlas imagePath="spritesheet.png">
+    <SubTexture name="tile1Red" x="0" y="0" width="64" height="64" />
+    <SubTexture name="tile2Green" x="64" y="0" width="64" height="64" />
+    <SubTexture name="tile3Blue" x="128" y="0" width="64" height="64" />
+    <SubTexture name="tile4Purple" x="192" y="0" width="64" height="64" />
+    <SubTexture name="tile5Yellow" x="256" y="0" width="64" height="64" />
+    <SubTexture name="tile6Orange" x="320" y="0" width="64" height="64" />
+    <SubTexture name="gem1Red" x="0" y="64" width="64" height="64" />
+    <SubTexture name="gem2Green" x="64" y="64" width="64" height="64" />
+    <SubTexture name="gem3Blue" x="128" y="64" width="64" height="64" />
+    <SubTexture name="gem4Purple" x="192" y="64" width="64" height="64" />
+    <SubTexture name="gem5Yellow" x="256" y="64" width="64" height="64" />
+</TextureAtlas>

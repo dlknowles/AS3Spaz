@@ -14,6 +14,7 @@ package
     import starling.utils.HAlign;
     import starling.utils.VAlign;
 	import utils.Constants;
+	import utils.Utilities;
 	
 	/**
 	 * ...
@@ -22,9 +23,11 @@ package
 	public class Game extends Sprite 
 	{
         public static const GAME_OVER:String = "gameOver";
+		public static var CurrentLevel:int = 0;
+		public static var NumLives:int = 5;
         
         private var tileArray:Array;
-        private var scale:int = 1;
+		private var thisLevel:Level;
                 
 		public function Game() 
 		{
@@ -41,43 +44,45 @@ package
             tField.vAlign = VAlign.CENTER;
             tField.hAlign = HAlign.RIGHT;
             addChild(tField);
-            
+			
+			thisLevel = new Level(Constants.LEVELS[CurrentLevel]);  
             setTiles();
             drawTiles();
         }
-        
-        private function setTiles():void 
-        {
-            tileArray = new Array();
-            
-            var row:Array;
-            for (var y:int = 0; y < Constants.NUMROWS; ++y) {
-                row = new Array();
-                
-                for (var x:int = 0; x < Constants.NUMCOLUMNS; ++x) {
-                    row[x] = new Tile(Math.random() * Constants.NUMCOLORS, scale, scale);
-                }
-                
-                tileArray[y] = row;
-            }
-            
-            trace(tileArray);
-        }
-        
-        private function drawTiles():void 
-        {
-            var offsetX:int = (Main.mStarling.stage.stageWidth - (Constants.NUMCOLUMNS * 32)) / 2;
-            var offsetY:int = 64;
-            
-            for (var y:int = 0; y < Constants.NUMROWS; ++y) {
-                for (var x:int = 0; x < Constants.NUMCOLUMNS; ++x) {
-                    tileArray[y][x].x = ((32 * scale) * x) + offsetX;
-                    tileArray[y][x].y = ((32 * scale) * y) + offsetY;
-                    addChild(tileArray[y][x]);
-                }
-            }
-        }       
-        
+		
+		private function setTiles():void 
+		{
+			tileArray = new Array();
+			var mapArray:Array = thisLevel.Map;
+			var row:int = 0;
+			var col:int = 0;
+			var colorIndex:int = 0;
+			
+			for (var i:int = 0, len:int = thisLevel.Map.length; i < len; ++i)
+			{
+				colorIndex = Utilities.GetRandomInt(0, thisLevel.MaxColors);
+				tileArray.push(new Tile(i, col, row, colorIndex, thisLevel.MaxColors, mapArray[i]));
+				
+				if (++col / Constants.NUMCOLUMNS == 1)
+				{
+					++row;
+					col = 0;
+				}
+			}
+		}
+		 
+		private function drawTiles():void 
+		{
+			var offsetX:int = (Main.mStarling.stage.stageWidth - (Constants.NUMCOLUMNS * tileArray[0].width));
+            var offsetY:int = 16;
+			
+			for (var i:int = 0, len:int = tileArray.length; i < len; ++i)
+			{
+				tileArray[i].x = tileArray[i].Column * tileArray[i].width + offsetX;
+				tileArray[i].y = tileArray[i].Row * tileArray[i].height + offsetY;
+				addChild(tileArray[i]);
+			}
+		}
 	}
 	
 }

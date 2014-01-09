@@ -7,6 +7,7 @@ package
     import flash.geom.Rectangle;
     import flash.system.Capabilities;
     import flash.events.Event;
+	import objects.Tile;
 	import utils.Constants;
     
     import starling.core.Starling;
@@ -39,6 +40,7 @@ package
         // save Starling object
         public static var mStarling:Starling;
         
+		public static var ScaleFactor:int;
         
 		public function Main():void 
 		{
@@ -62,20 +64,21 @@ package
                 ScaleMode.SHOW_ALL);
             
             // create the Asset Manager, which handles all required assets for this resolution
-            var scaleFactor:int = viewPort.width < 480 ? 1 : 2; // midway between 320 and 640
+            ScaleFactor = viewPort.width < 480 ? 1 : 2; // midway between 320 and 640
+			trace("ScaleFactor: " + ScaleFactor);
             var appDir:File = File.applicationDirectory;
             trace("appDir: " + appDir.nativePath);
-            var assets:AssetManager = new AssetManager(scaleFactor);
+            var assets:AssetManager = new AssetManager(ScaleFactor);
             
 			assets.verbose = Capabilities.isDebugger;
             assets.enqueue(
-                appDir.resolvePath(formatString("fonts/x{0}", scaleFactor)),
-                appDir.resolvePath(formatString("textures/x{0}", scaleFactor))
+                appDir.resolvePath(formatString("fonts/x{0}", ScaleFactor)),
+                appDir.resolvePath(formatString("textures/x{0}", ScaleFactor))
             );
             
             // While Stage3D is initializing, the screen will be blank. To avoid any flickering,
             // we display a startup image now and remove it below when Starling is ready to go.
-            var backgroundClass:Class = scaleFactor == 1 ? Background : BackgroundHD;
+            var backgroundClass:Class = ScaleFactor == 1 ? Background : BackgroundHD;
             var background:Bitmap = new backgroundClass();
             
             Background = BackgroundHD = null;  // these are not needed anymore since we set backgroundClass.
@@ -101,7 +104,7 @@ package
                     removeChild(background);
                     background = null;
                     
-                    var bgTexture:Texture = Texture.fromEmbeddedAsset(backgroundClass, false, false, scaleFactor);
+                    var bgTexture:Texture = Texture.fromEmbeddedAsset(backgroundClass, false, false, ScaleFactor);
                     
                     app.start(bgTexture, assets);
                     mStarling.start();
