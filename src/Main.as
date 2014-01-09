@@ -30,11 +30,11 @@ package
         private static const UbuntuRegular:Class;
         
         // Embed startup image for SD screens
-        [Embed(source = "/startup.jpg")]
+        [Embed(source = "/startup2.png")]//[Embed(source = "/startup.jpg")]
         private static var Background:Class;
         
         // Embed startup image for HD screens
-        [Embed(source = "/startupHD.jpg")]
+        [Embed(source = "/startupHD2.png")]//[Embed(source = "/startupHD.jpg")]
         private static var BackgroundHD:Class;
         
         // save Starling object
