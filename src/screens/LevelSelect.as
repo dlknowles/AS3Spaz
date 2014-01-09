@@ -31,8 +31,8 @@ package screens
             addChild(textField);
 			
 			var livesTextField:TextField = new TextField(Constants.STAGEWIDTH / 2, 64, "Lives: " + Game.NumLives, Constants.NORMALFONT);
-			livesTextField.x = 16;
-			livesTextField.y = 16;
+			livesTextField.x = Constants.PADDING;
+			livesTextField.y = Constants.PADDING;
 			livesTextField.vAlign = VAlign.TOP;
 			livesTextField.hAlign = HAlign.LEFT;
 			addChild(livesTextField);
@@ -69,7 +69,7 @@ package screens
 			var button:Button = new Button(Root.assets.getTexture("button_normal"), text);
 			button.width = 32;
             button.fontName = "Ubuntu";
-            button.fontSize = 16;
+            button.fontSize = 12;
             button.x = x;
             button.y = y;
             button.addEventListener(Event.TRIGGERED, function():void {

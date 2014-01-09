@@ -8,6 +8,7 @@ package utils
 	{
 		public static const STAGEWIDTH:int = 480;
         public static const STAGEHEIGHT:int = 320;
+		public static const PADDING:int = 16;
 		public static const TITLEFONTSIZE:int = 32;
 		public static const TITLEFONT:String = "Verdana";
 		public static const NORMALFONT:String = "Ubuntu";
@@ -39,6 +40,21 @@ package utils
 			'{"map":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"maxTurns":70,"maxColors":6,"maxGems":15,"dynamite":1,"concrete":1,"acidFlasks":1,"spazArray":[4,5,5,5,6]}',
 			'{"map":[0,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"maxTurns":25,"maxColors":3,"maxGems":10,"dynamite":0,"concrete":0,"acidFlasks":0,"spazArray":[]}',
 		];
+		public static const KEYS:Object = {
+			W: 87,
+			A: 65,
+			S: 83,
+			D: 68,
+			UP: 38,
+			DOWN: 40,
+			LEFT: 37,
+			RIGHT: 39
+		};
+		public static const ITEMTYPES:Object = {
+			DYNAMITE: 1,
+			CONCRETE: 2,
+			ACIDFLASK: 3
+		};
 	}
 
 }

@@ -42,8 +42,8 @@ package screens
 			cancelButton.width = 32;
 			cancelButton.height = 32;
 			cancelButton.fontName = Constants.NORMALFONT;
-			cancelButton.x = Constants.STAGEWIDTH - cancelButton.width - 16;
-			cancelButton.y = 16;
+			cancelButton.x = Constants.STAGEWIDTH - cancelButton.width - Constants.PADDING;
+			cancelButton.y = Constants.PADDING;
 			cancelButton.addEventListener(Event.TRIGGERED, function():void {
 				dispatchEventWith(Menu.START_GAME, true, "classic");
 			});
@@ -66,7 +66,7 @@ package screens
 			var button:Button = new Button(Root.assets.getTexture("button_normal"), text);
 			button.width = 32;
             button.fontName = "Ubuntu";
-            button.fontSize = 16;
+            button.fontSize = 12;
             button.x = x;
             button.y = y;
             button.addEventListener(Event.TRIGGERED, function():void {

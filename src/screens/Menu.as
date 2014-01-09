@@ -32,7 +32,7 @@ package screens
             
             var button:Button = new Button(Root.assets.getTexture("button_normal"), "Start");
             button.fontName = "Ubuntu";
-            button.fontSize = 16;
+            button.fontSize = 12;
             button.x = int((Constants.STAGEWIDTH - button.width) / 2);
             button.y = Constants.STAGEHEIGHT * 0.75;
             button.addEventListener(Event.TRIGGERED, onButtonTriggered);

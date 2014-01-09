@@ -49,20 +49,6 @@ package objects
 			init();
 		}
 		
-		/*
-        public function Tile(colorIndex:int = 0, scaleX:int = 1, scaleY:int = 1) 
-        {
-            if (colorIndex < 0 || colorIndex > Constants.NUMCOLORS - 1) {
-                this.colorIndex = 0;
-            }
-            else {
-                this.colorIndex = colorIndex;
-            }
-                        
-            init();
-        }
-		*/
-        
         private function init():void 
         {   
 			if (colorIndex >= maxColors) colorIndex = 0;
