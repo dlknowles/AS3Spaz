@@ -72,9 +72,18 @@ package
         
         private function onGameOver(e:Event, score:int):void 
         {
+			// TODO: Add a Game Over screen and show that instead of the Level Selection screen.
             trace("Game Over! Score: " + score);
-            showScene(Menu);
+			--Game.NumLives;
+            showScene(LevelSelect);
         }
+		
+		private function onLevelComplete(e:Event, score:int):void 
+		{
+			// TODO: Add a Game Over screen and show that instead of the Level Selection screen.
+            trace("You completed Level " + int(Game.CurrentLevel + 1).toString(10) + " with a score of " + score + "!");
+            showScene(LevelSelect);
+		}
         
         private function onStartGame(e:Event, mode:String):void 
         {
@@ -85,14 +94,14 @@ package
         
 		private function onSelectLevel(e:Event, level:int):void 
 		{
-			trace("Selected Level: " + level);
+			trace("Selected Level: " + int(level + 1).toString(10));
 			Game.CurrentLevel = level;
 			showScene(LevelDetails);
 		}
 		
 		private function onStartLevel(e:Event):void 
 		{
-			trace("Starting Level");
+			trace("Starting Level " + int(Game.CurrentLevel + 1).toString(10));
 			showScene(Game);
 		}
 		

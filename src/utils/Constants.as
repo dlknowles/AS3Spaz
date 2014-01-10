@@ -12,13 +12,15 @@ package utils
 		public static const TITLEFONTSIZE:int = 32;
 		public static const TITLEFONT:String = "Verdana";
 		public static const NORMALFONT:String = "Ubuntu";
+		public static const	NORMALFONTSIZE:int = 12;
+		public static const ITEMBUTTONWIDTH:int = 48;
         public static const NUMCOLORS:int = 5;
         public static const NUMCOLUMNS:int = 9;
         public static const NUMROWS:int = 9;
 		public static const BASEITEMPOINTS:int = 50;
 		public static const GEMPOINTS:int = 60;
 		public static const LEVELS:Array = [
-			'{"map":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"maxTurns":25,"maxColors":3,"maxGems":10,"dynamite":0,"concrete":0,"acidFlasks":0,"spazArray":[]}',
+			'{"map":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"maxTurns":25,"maxColors":3,"maxGems":1,"dynamite":0,"concrete":0,"acidFlasks":0,"spazArray":[]}',
 			'{"map":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"maxTurns":25,"maxColors":3,"maxGems":10,"dynamite":0,"concrete":0,"acidFlasks":0,"spazArray":[]}',
 			'{"map":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"maxTurns":30,"maxColors":4,"maxGems":10,"dynamite":0,"concrete":0,"acidFlasks":0,"spazArray":[]}',
 			'{"map":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"maxTurns":35,"maxColors":5,"maxGems":10,"dynamite":0,"concrete":0,"acidFlasks":0,"spazArray":[]}',
@@ -54,7 +56,8 @@ package utils
 		public static const ITEMTYPES:Object = {
 			DYNAMITE: 1,
 			CONCRETE: 2,
-			ACIDFLASK: 3
+			ACIDFLASK: 3,
+			GEM: 4
 		};
 	}
 

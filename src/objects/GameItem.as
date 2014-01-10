@@ -66,6 +66,10 @@ package objects
 					itemTexture = Root.assets.getTextures("acidFlask");
 					
 					break;
+				case int(Constants.ITEMTYPES.GEM):
+					itemTexture = Root.assets.getTextures("gem");
+					
+					break;
 				default:
 					trace("Invalid item type in GameItem.buildTexture(): " + itemType)
 			}

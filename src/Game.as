@@ -4,6 +4,7 @@ package
 	import objects.Player;
 	import objects.Tile;
 	import starling.core.Starling;
+	import starling.display.Button;
     import starling.display.Image;
     import starling.display.MovieClip;
     import starling.display.Quad;
@@ -26,6 +27,10 @@ package
 	public class Game extends Sprite 
 	{
         public static const GAME_OVER:String = "gameOver";
+		public static const TURN_TAKEN:String = "turnTaken";
+		public static const GEM_COLLECTED:String = "gemCollected";
+		public static const LEVEL_COMPLETE:String = "levelComplete";
+		
 		public static var CurrentLevel:int = 0;
 		public static var NumLives:int = 5;
 		//public static var Score:int = 0;
@@ -35,6 +40,11 @@ package
 		private var gamePlayer:Player;
 		private var thisLevel:Level;
 		private var scoreText:TextField;
+		private var turnText:TextField;
+		private var dynamiteButton:Button;
+		private var concreteButton:Button;
+		private var acidButton:Button;
+		private static var numTurns:int;
                 
 		public function Game() 
 		{
@@ -45,6 +55,8 @@ package
         {			
 			thisLevel = new Level(Constants.LEVELS[CurrentLevel]);  
 			
+			numTurns = thisLevel.MaxTurns;
+			
             setTiles();
 			setPlayer();
 			setGameItems();
@@ -52,6 +64,8 @@ package
 						
 			addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
 			addEventListener(KeyboardEvent.KEY_UP, onKeyUp);			
+			addEventListener(Game.TURN_TAKEN, onTurnTaken);
+			addEventListener(Game.GEM_COLLECTED, onGemCollected);
         }
 		
 		private function setTiles():void 
@@ -149,6 +163,11 @@ package
 				addGameItem(Utilities.GetRandomTile(), int(Constants.ITEMTYPES.ACIDFLASK));			
 			}
 			
+			for (i = 0; i < thisLevel.MaxGems; ++i)
+			{
+				addGameItem(Utilities.GetRandomTile(), int(Constants.ITEMTYPES.GEM));
+			}
+			
 			drawGameItems();
 		}
 		
@@ -176,17 +195,65 @@ package
 			q.y = 0;
             addChild(q);
             
-			scoreText = new TextField(q.width, 64, "Score: " + gamePlayer.Score, Constants.NORMALFONT, 12, 0xffffff, true);
+			scoreText = new TextField(q.width, 40, "Score: " + gamePlayer.Score, Constants.NORMALFONT, Constants.NORMALFONTSIZE, 0xffffff, true);
 			scoreText.x = Constants.PADDING;
 			scoreText.y = Constants.PADDING;
             scoreText.vAlign = VAlign.TOP;
             scoreText.hAlign = HAlign.LEFT;
             addChild(scoreText);
+			
+			drawItemButtons();
+			
+			turnText = new TextField(q.width, 40, "Turns: " + numTurns, Constants.NORMALFONT, Constants.NORMALFONTSIZE, 0xffffff, true);
+			turnText.x = Constants.PADDING;
+			turnText.y = Constants.STAGEHEIGHT - Constants.PADDING - 40;
+            turnText.vAlign = VAlign.TOP;
+            turnText.hAlign = HAlign.LEFT;
+            addChild(turnText);
+		}
+		
+		private function drawItemButtons():void 
+		{
+			dynamiteButton = new Button(Root.assets.getTexture("button_normal"));
+			concreteButton = new Button(Root.assets.getTexture("button_normal"));
+			acidButton = new Button(Root.assets.getTexture("button_normal"));
+			
+			dynamiteButton.x = Constants.PADDING;
+			dynamiteButton.y = Constants.PADDING + scoreText.height;
+			dynamiteButton.width = Constants.ITEMBUTTONWIDTH;			
+			
+			addChild(dynamiteButton);
+			
+			concreteButton.x = dynamiteButton.x + dynamiteButton.width;
+			concreteButton.y = Constants.PADDING + scoreText.height;
+			concreteButton.width = Constants.ITEMBUTTONWIDTH;
+			
+			addChild(concreteButton);
+			
+			acidButton.x = concreteButton.x + concreteButton.width;
+			acidButton.y = concreteButton.y;
+			acidButton.width = Constants.ITEMBUTTONWIDTH;
+			
+			addChild(acidButton);
+			
+			setItemButtonText();
+		}
+		
+		private function setItemButtonText():void 
+		{
+			dynamiteButton.text = "D: " + gamePlayer.CurrentInventory.dynamite;
+			concreteButton.text = "C: " + gamePlayer.CurrentInventory.concrete;
+			acidButton.text = "A: " + gamePlayer.CurrentInventory.acidFlask;
 		}
 		
 		private function updateScore():void 
 		{
 			scoreText.text = "Score: " + gamePlayer.Score;
+		}
+		
+		private function updateTurns():void 
+		{
+			turnText.text = "Turns: " + numTurns;
 		}
 		
 		private function onKeyDown(e:KeyboardEvent):void 
@@ -214,11 +281,32 @@ package
 			}
 			
 			updateScore();
+			setItemButtonText();
 		}
 		
 		private function onKeyUp(e:KeyboardEvent):void 
 		{
 			gamePlayer.IsMoving = false;
+		}
+		
+		private function onTurnTaken(e:Event):void 
+		{
+			if (--numTurns == 0) 
+			{
+			    removeEventListeners();
+				dispatchEventWith(Game.GAME_OVER, true, gamePlayer.Score);
+			}
+			else updateTurns();
+		}
+		
+		private function onGemCollected(e:Event):void 
+		{
+			if (gamePlayer.NumGems == thisLevel.MaxGems) 
+			{
+			    removeEventListeners();
+				dispatchEventWith(Game.LEVEL_COMPLETE, true, gamePlayer.Score);
+			}
+			else updateScore();
 		}
 	}
 	

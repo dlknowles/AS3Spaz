@@ -45,20 +45,19 @@ package screens
 			// TODO: Limit the levels to those the user has completed and the one he is has to finish to continue.
 			// TODO: Make the level selection prettier.
 			var numLevels:int = Constants.LEVELS.length;
-			var x:Number = 0;
-			var y:Number = Constants.STAGEHEIGHT * 0.25;
+			var x:Number = Constants.PADDING;
+			var y:Number = Constants.STAGEHEIGHT * 0.5;
 			
 			for (var i:int; i < numLevels; ++i)
 			{
-				if (i % 5 == 0) 
+				x += (i > 0) ? Constants.ITEMBUTTONWIDTH : 0;
+				
+				if (x > Constants.STAGEWIDTH - Constants.PADDING) 
 				{
-					y += 32;
-					x = 32;
+					y += Constants.ITEMBUTTONWIDTH;
+					x = Constants.PADDING;
 				}
-				else
-				{
-					x += 32;
-				}
+				
 				drawLevelButton(x, y, i);
 			}
 		}
@@ -67,9 +66,9 @@ package screens
 		{
 			var text:String = int(level + 1).toString(10);
 			var button:Button = new Button(Root.assets.getTexture("button_normal"), text);
-			button.width = 32;
+			button.width = Constants.ITEMBUTTONWIDTH;
             button.fontName = Constants.NORMALFONT;
-            button.fontSize = 12;
+            button.fontSize = Constants.NORMALFONTSIZE;
             button.x = x;
             button.y = y;
             button.addEventListener(Event.TRIGGERED, function():void {

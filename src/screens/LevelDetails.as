@@ -5,6 +5,8 @@ package screens
     import starling.events.Event;
     import starling.text.BitmapFont;
     import starling.text.TextField;
+	import starling.utils.HAlign;
+	import starling.utils.VAlign;
 	import utils.Constants;
 	
 	/**
@@ -49,15 +51,28 @@ package screens
 			});
 			addChild(cancelButton);
 			
-			// Play button -- starts the level
-			var playButton:Button = new Button(Root.assets.getTexture("button_normal"), "Play!");
-			playButton.fontName = Constants.NORMALFONT;
-			playButton.x = Constants.STAGEWIDTH / 2 - playButton.width / 2;
-			playButton.y = Constants.STAGEHEIGHT / 2;
-			playButton.addEventListener(Event.TRIGGERED, function():void {
-				dispatchEventWith(START_LEVEL, true);
-			});
-			addChild(playButton);
+			if (Game.NumLives > 0)
+			{
+				// Play button -- starts the level
+				var playButton:Button = new Button(Root.assets.getTexture("button_normal"), "Play!");
+				playButton.fontName = Constants.NORMALFONT;
+				playButton.x = Constants.STAGEWIDTH / 2 - playButton.width / 2;
+				playButton.y = Constants.STAGEHEIGHT / 2;
+				playButton.addEventListener(Event.TRIGGERED, function():void {
+					dispatchEventWith(START_LEVEL, true);
+				});
+				addChild(playButton);
+			}
+			else
+			{
+				var noLivesText:TextField = new TextField(Constants.STAGEWIDTH, 100, "Sorry, you have no lives left.", Constants.NORMALFONT, Constants.NORMALFONTSIZE, 0x000000);
+				noLivesText.x = 0;
+				noLivesText.y = Constants.STAGEHEIGHT / 2;
+				noLivesText.vAlign = VAlign.TOP;
+				noLivesText.hAlign = HAlign.CENTER;
+				
+				addChild(noLivesText);
+			}
 		}
 		
 		private function drawLevelButton(x:Number, y:Number, text:String, eventHandler:Function):void 

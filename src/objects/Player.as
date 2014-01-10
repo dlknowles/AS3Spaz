@@ -102,6 +102,15 @@ package objects
 								
 								break;
 								
+							case int(Constants.ITEMTYPES.GEM):
+								++this.NumGems;
+								this.Score += Constants.GEMPOINTS;
+								item.Deactivate();
+								trace("Gem collected. You now have " + NumGems + ".");
+								dispatchEventWith(Game.GEM_COLLECTED, true);
+								
+								break;
+								
 							default:
 								// do nothing for now.
 								trace("Attempting to collect an invalid item type: " + item.ItemType);

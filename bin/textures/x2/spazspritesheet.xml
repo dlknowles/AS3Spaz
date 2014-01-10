@@ -7,6 +7,7 @@
     <SubTexture name="tile5Purple" x="256" y="0" width="64" height="64" />
     <SubTexture name="orange" x="320" y="0" width="64" height="64" />
     <SubTexture name="player" x="384" y="0" width="64" height="64" />
+    <SubTexture name="gem" x="448" y="0" width="64" height="64" />
 	<SubTexture name="dynamite" x="0" y="64" width="64" height="64" />
 	<SubTexture name="concrete" x="64" y="64" width="64" height="64" />
 	<SubTexture name="acidFlask" x="128" y="64" width="64" height="64" />

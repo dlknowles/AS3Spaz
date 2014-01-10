@@ -3,10 +3,11 @@
     <SubTexture name="tile1Red" x="0" y="0" width="32" height="32" />
     <SubTexture name="tile2Green" x="32" y="0" width="32" height="32" />
     <SubTexture name="tile3Blue" x="64" y="0" width="32" height="32" />
-    <SubTexture name="tile4Yellow" x="128" y="0" width="32" height="32" />
-    <SubTexture name="tile5Purple" x="160" y="0" width="32" height="32" />
-    <SubTexture name="orange" x="192" y="0" width="32" height="32" />
-    <SubTexture name="player" x="224" y="0" width="32" height="32" />
+    <SubTexture name="tile4Yellow" x="96" y="0" width="32" height="32" />
+    <SubTexture name="tile5Purple" x="128" y="0" width="32" height="32" />
+    <SubTexture name="orange" x="160" y="0" width="32" height="32" />
+    <SubTexture name="player" x="192" y="0" width="32" height="32" />
+    <SubTexture name="gem" x="224" y="0" width="32" height="32" />
 	<SubTexture name="dynamite" x="0" y="32" width="32" height="32" />
 	<SubTexture name="concrete" x="32" y="32" width="32" height="32" />
 	<SubTexture name="acidFlask" x="64" y="32" width="32" height="32" />

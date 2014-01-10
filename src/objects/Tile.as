@@ -114,6 +114,8 @@ package objects
             }
             
             movie.currentFrame = colorIndex;
+			
+			dispatchEventWith(Game.TURN_TAKEN, true);
         }   
    
     }
