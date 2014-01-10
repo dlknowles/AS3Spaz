@@ -1,9 +1,13 @@
 package objects 
 {
 	import starling.core.Starling;
+	import starling.display.DisplayObject;
 	import starling.display.MovieClip;
 	import starling.display.Sprite;
 	import starling.events.KeyboardEvent;
+    import starling.events.Touch;
+    import starling.events.TouchEvent;
+    import starling.events.TouchPhase;
 	import starling.textures.Texture;
 	import utils.Constants;
 	/**
@@ -37,13 +41,34 @@ package objects
 			this.IsMoving = false;
 			
 			buildTexture();
+			
+			movie.addEventListener(TouchEvent.TOUCH, function(e:TouchEvent):void {
+				var t:Touch = e.getTouch(DisplayObject(e.target));
+				
+				if (t) {
+					switch(t.phase) {
+						case TouchPhase.BEGAN:
+							//trace("BEGIN " + e.target + " " + e.currentTarget + " " + t.target);
+							CurrentTile.Increment();
+							break;
+						case TouchPhase.ENDED:
+							//trace("END " + e.target + " " + e.currentTarget + " " + t.target);
+							break;
+						case TouchPhase.HOVER:
+							//trace("HOVER " + e.target + " " + e.currentTarget + " " + t.target);                        
+							break;
+						default:
+							//trace("Something else: " + t.phase);
+					}
+				}
+			});
         }
 		
 		private function buildTexture():void 
 		{					
 			var playerTexture:Vector.<Texture>;
 			
-			playerTexture = Root.assets.getTextures("gem");
+			playerTexture = Root.assets.getTextures("player");
 			
 			movie = new MovieClip(playerTexture, 10);
             movie.loop = true;
@@ -59,6 +84,7 @@ package objects
 			// TODO: Implement Player.collectTileItems()
 		}
 		
+		// TODO: The move isn't working
 		private function move(newTile:Tile):void
 		{
 			if (this.CurrentTile.ColorIndex == newTile.ColorIndex)

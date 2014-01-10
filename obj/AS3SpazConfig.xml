@@ -32,16 +32,16 @@
     </define>
     <verbose-stacktraces>true</verbose-stacktraces>
     <source-path append="true">
-      <path-element>D:\fdevProjects\AS3Spaz\src</path-element>
-      <path-element>D:\fdevProjects\AS3Spaz\system</path-element>
+      <path-element>C:\Development\FlashDevelopProjects\AS3Spaz\src</path-element>
+      <path-element>C:\Development\FlashDevelopProjects\AS3Spaz\system</path-element>
       <path-element>C:\Program Files (x86)\FlashDevelop\Library\AS3\classes</path-element>
     </source-path>
     <library-path append="true">
-      <path-element>D:\fdevProjects\AS3Spaz\lib\starling.swc</path-element>
+      <path-element>C:\Development\FlashDevelopProjects\AS3Spaz\lib\starling.swc</path-element>
     </library-path>
   </compiler>
   <file-specs>
-    <path-element>D:\fdevProjects\AS3Spaz\src\Main.as</path-element>
+    <path-element>C:\Development\FlashDevelopProjects\AS3Spaz\src\Main.as</path-element>
   </file-specs>
   <default-background-color>#FFFFFF</default-background-color>
   <default-frame-rate>60</default-frame-rate>
