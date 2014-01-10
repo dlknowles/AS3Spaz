@@ -1,5 +1,6 @@
 package 
 {
+	import objects.GameItem;
 	import objects.Player;
 	import objects.Tile;
 	import starling.core.Starling;
@@ -27,9 +28,9 @@ package
         public static const GAME_OVER:String = "gameOver";
 		public static var CurrentLevel:int = 0;
 		public static var NumLives:int = 5;
-		public static var Score:int = 0;
+		//public static var Score:int = 0;
         public static var TileArray:Vector.<Tile>;
-		public static var ItemArray:Array;
+		public static var ItemArray:Vector.<GameItem>;
 		
 		private var gamePlayer:Player;
 		private var thisLevel:Level;
@@ -45,11 +46,12 @@ package
 			thisLevel = new Level(Constants.LEVELS[CurrentLevel]);  
 			
             setTiles();
-            drawTiles();
 			setPlayer();
+			setGameItems();
 			drawStatusArea();
-			
+						
 			addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+			addEventListener(KeyboardEvent.KEY_UP, onKeyUp);			
         }
 		
 		private function setTiles():void 
@@ -91,7 +93,9 @@ package
 					++row;
 					col = 0;
 				}
-			}			
+			}
+			
+			drawTiles();
 		}
 		 
 		private function drawTiles():void 
@@ -125,6 +129,44 @@ package
 			addChild(gamePlayer);
 		}
 		
+		private function setGameItems():void 
+		{			
+			ItemArray = new Vector.<GameItem>();
+			var i:int = 0;
+			
+			for (i = 0; i < thisLevel.Dynamite; ++i)
+			{
+				addGameItem(Utilities.GetRandomTile(), int(Constants.ITEMTYPES.DYNAMITE));
+			}
+			
+			for (i = 0; i < thisLevel.Concrete; ++i)
+			{
+				addGameItem(Utilities.GetRandomTile(), int(Constants.ITEMTYPES.CONCRETE));			
+			}
+			
+			for (i = 0; i < thisLevel.AcidFlasks; ++i)
+			{
+				addGameItem(Utilities.GetRandomTile(), int(Constants.ITEMTYPES.ACIDFLASK));			
+			}
+			
+			drawGameItems();
+		}
+		
+		private function addGameItem(tile:Tile, type:int):void 
+		{
+			ItemArray.push(new GameItem(tile, type));	
+		}
+		
+		private function drawGameItems():void 
+		{
+			for (var i:int = 0; i < ItemArray.length; ++i)
+			{
+				ItemArray[i].x = ItemArray[i].CurrentTile.x;
+				ItemArray[i].y = ItemArray[i].CurrentTile.y;
+				addChild(ItemArray[i]);
+			}
+		}
+		
 		private function drawStatusArea():void 
 		{
 			var statusWidth:int = Constants.STAGEWIDTH - (Constants.NUMCOLUMNS * TileArray[0].width);
@@ -134,7 +176,7 @@ package
 			q.y = 0;
             addChild(q);
             
-			scoreText = new TextField(q.width, 64, "Score: " + Score, Constants.NORMALFONT, 12, 0xffffff, true);
+			scoreText = new TextField(q.width, 64, "Score: " + gamePlayer.Score, Constants.NORMALFONT, 12, 0xffffff, true);
 			scoreText.x = Constants.PADDING;
 			scoreText.y = Constants.PADDING;
             scoreText.vAlign = VAlign.TOP;
@@ -144,7 +186,7 @@ package
 		
 		private function updateScore():void 
 		{
-			scoreText.text = "Score: " + Score;
+			scoreText.text = "Score: " + gamePlayer.Score;
 		}
 		
 		private function onKeyDown(e:KeyboardEvent):void 
@@ -153,27 +195,30 @@ package
 			
 			if (key == Constants.KEYS.W || key == Constants.KEYS.UP)
 			{
-				// move player up
-				gamePlayer.MoveUp();
+				if (!gamePlayer.IsMoving) gamePlayer.MoveUp();
 			}
 			
 			if (key == Constants.KEYS.A || key == Constants.KEYS.LEFT)
 			{
-				// move player left
-				gamePlayer.MoveLeft();				
+				if(!gamePlayer.IsMoving) gamePlayer.MoveLeft();				
 			}
 			
-			if (key == Constants.KEYS.S || key == Constants.KEYS.DOWN)
+			if (key == Constants.KEYS.S || key == Constants.KEYS.DOWN) 
 			{
-				// move player down
-				gamePlayer.MoveDown();
+				if(!gamePlayer.IsMoving) gamePlayer.MoveDown();
 			}
 			
-			if (key == Constants.KEYS.D || key == Constants.KEYS.RIGHT)
+			if (key == Constants.KEYS.D || key == Constants.KEYS.RIGHT) 
 			{
-				// move player right
-				gamePlayer.MoveRight();
+				if(!gamePlayer.IsMoving) gamePlayer.MoveRight();
 			}
+			
+			updateScore();
+		}
+		
+		private function onKeyUp(e:KeyboardEvent):void 
+		{
+			gamePlayer.IsMoving = false;
 		}
 	}
 	

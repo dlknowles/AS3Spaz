@@ -25,7 +25,7 @@ package screens
         private function init():void 
         {
             var textField:TextField = new TextField(250, 50, "Select a Level",
-                "Verdana", Constants.TITLEFONTSIZE, 0x000000);
+                Constants.TITLEFONT, Constants.TITLEFONTSIZE, 0x000000);
             textField.x = (Constants.STAGEWIDTH - textField.width) / 2;
             textField.y = 50;
             addChild(textField);
@@ -68,7 +68,7 @@ package screens
 			var text:String = int(level + 1).toString(10);
 			var button:Button = new Button(Root.assets.getTexture("button_normal"), text);
 			button.width = 32;
-            button.fontName = "Ubuntu";
+            button.fontName = Constants.NORMALFONT;
             button.fontSize = 12;
             button.x = x;
             button.y = y;

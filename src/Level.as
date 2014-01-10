@@ -45,6 +45,19 @@ package
 			jsonStr = jsonString;
 			
 			initializeFromJSON();
+			
+			/*
+			trace("Level created...");
+			
+			trace("map: " + map);
+			trace("maxTurns: " + maxTurns);
+			trace("maxColors: " + maxColors);
+			trace("maxGems: " + maxGems);
+			trace("dynamite: " + dynamite);
+			trace("concrete: " + concrete);
+			trace("acidFlasks: " + acidFlasks);
+			trace("spazArray: " + spazArray);
+			*/
 		}
 		
 		private function initializeFromJSON():void 

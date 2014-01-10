@@ -12,9 +12,11 @@ package utils
 		public static const TITLEFONTSIZE:int = 32;
 		public static const TITLEFONT:String = "Verdana";
 		public static const NORMALFONT:String = "Ubuntu";
-        public static const NUMCOLORS:int = 6;
+        public static const NUMCOLORS:int = 5;
         public static const NUMCOLUMNS:int = 9;
         public static const NUMROWS:int = 9;
+		public static const BASEITEMPOINTS:int = 50;
+		public static const GEMPOINTS:int = 60;
 		public static const LEVELS:Array = [
 			'{"map":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"maxTurns":25,"maxColors":3,"maxGems":10,"dynamite":0,"concrete":0,"acidFlasks":0,"spazArray":[]}',
 			'{"map":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"maxTurns":25,"maxColors":3,"maxGems":10,"dynamite":0,"concrete":0,"acidFlasks":0,"spazArray":[]}',
@@ -37,8 +39,7 @@ package utils
 			'{"map":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"maxTurns":70,"maxColors":6,"maxGems":12,"dynamite":1,"concrete":0,"acidFlasks":0,"spazArray":[3,4,5,5,5]}',
 			'{"map":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"maxTurns":70,"maxColors":6,"maxGems":12,"dynamite":0,"concrete":0,"acidFlasks":1,"spazArray":[4,5,5,5,5]}',
 			'{"map":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"maxTurns":70,"maxColors":6,"maxGems":15,"dynamite":1,"concrete":1,"acidFlasks":1,"spazArray":[4,5,5,5,6]}',
-			'{"map":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"maxTurns":70,"maxColors":6,"maxGems":15,"dynamite":1,"concrete":1,"acidFlasks":1,"spazArray":[4,5,5,5,6]}',
-			'{"map":[0,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"maxTurns":25,"maxColors":3,"maxGems":10,"dynamite":0,"concrete":0,"acidFlasks":0,"spazArray":[]}',
+			'{"map":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"maxTurns":70,"maxColors":6,"maxGems":15,"dynamite":1,"concrete":1,"acidFlasks":1,"spazArray":[4,5,5,5,6]}'
 		];
 		public static const KEYS:Object = {
 			W: 87,

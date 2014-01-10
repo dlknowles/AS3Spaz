@@ -65,9 +65,9 @@ package
             
             // create the Asset Manager, which handles all required assets for this resolution
             ScaleFactor = viewPort.width < 480 ? 1 : 2; // midway between 320 and 640
-			trace("ScaleFactor: " + ScaleFactor);
+			//trace("ScaleFactor: " + ScaleFactor);
             var appDir:File = File.applicationDirectory;
-            trace("appDir: " + appDir.nativePath);
+            //trace("appDir: " + appDir.nativePath);
             var assets:AssetManager = new AssetManager(ScaleFactor);
             
 			assets.verbose = Capabilities.isDebugger;

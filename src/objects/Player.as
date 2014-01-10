@@ -45,21 +45,8 @@ package objects
 			movie.addEventListener(TouchEvent.TOUCH, function(e:TouchEvent):void {
 				var t:Touch = e.getTouch(DisplayObject(e.target));
 				
-				if (t) {
-					switch(t.phase) {
-						case TouchPhase.BEGAN:
-							//trace("BEGIN " + e.target + " " + e.currentTarget + " " + t.target);
-							CurrentTile.Increment();
-							break;
-						case TouchPhase.ENDED:
-							//trace("END " + e.target + " " + e.currentTarget + " " + t.target);
-							break;
-						case TouchPhase.HOVER:
-							//trace("HOVER " + e.target + " " + e.currentTarget + " " + t.target);                        
-							break;
-						default:
-							//trace("Something else: " + t.phase);
-					}
+				if (t && t.phase == TouchPhase.BEGAN) {
+					CurrentTile.Increment();
 				}
 			});
         }
@@ -81,10 +68,56 @@ package objects
 		
 		private function collectTileItems():void 
 		{
-			// TODO: Implement Player.collectTileItems()
+			// TODO: Add Gems as a collectible item
+			var item:GameItem;
+			
+			for (var i:int = 0, len:int = Game.ItemArray.length; i < len; ++i)
+			{
+				item = Game.ItemArray[i];
+				
+				if (item.CurrentTile.ID == this.CurrentTile.ID)
+				{
+					if (item.IsActive)
+					{
+						switch (item.ItemType) 
+						{
+							case int(Constants.ITEMTYPES.DYNAMITE):
+								++this.CurrentInventory.dynamite;
+								this.Score += Constants.BASEITEMPOINTS;
+								item.Deactivate();
+								
+								break;
+								
+							case int(Constants.ITEMTYPES.CONCRETE):
+								++this.CurrentInventory.concrete;
+								this.Score += Constants.BASEITEMPOINTS;
+								item.Deactivate();
+								
+								break;
+								
+							case int(Constants.ITEMTYPES.ACIDFLASK):
+								++this.CurrentInventory.acidFlask;
+								this.Score += Constants.BASEITEMPOINTS;
+								item.Deactivate();
+								
+								break;
+								
+							default:
+								// do nothing for now.
+								trace("Attempting to collect an invalid item type: " + item.ItemType);
+						}
+						
+						trace("Player inventory is now: ");
+						trace(" dynamite: " + CurrentInventory.dynamite);
+						trace(" concrete: " + CurrentInventory.concrete);
+						trace(" acidFlask: " + CurrentInventory.acidFlask);
+					}
+					
+					break;
+				}
+			}
 		}
 		
-		// TODO: The move isn't working
 		private function move(newTile:Tile):void
 		{
 			if (this.CurrentTile.ColorIndex == newTile.ColorIndex)
@@ -93,6 +126,9 @@ package objects
 				this.IsMoving = true;
 				
 				collectTileItems();
+				
+				this.x = CurrentTile.x;
+				this.y = CurrentTile.y;
 			}
 		}
               
@@ -113,7 +149,7 @@ package objects
 		 
 		public function MoveRight():void 
 		{
-			if (this.CurrentTile.Column > Constants.NUMCOLUMNS - 1) move(Game.TileArray[this.CurrentTile.ID + 1]);
+			if (this.CurrentTile.Column < Constants.NUMCOLUMNS - 1) move(Game.TileArray[this.CurrentTile.ID + 1]);
 		}
 	}
 

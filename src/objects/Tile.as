@@ -51,6 +51,7 @@ package objects
 		
         private function init():void 
         {   
+			if (maxColors > Constants.NUMCOLORS) maxColors = Constants.NUMCOLORS;
 			if (colorIndex >= maxColors) colorIndex = 0;
 			
 			buildTileTexture();
