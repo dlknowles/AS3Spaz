@@ -1,7 +1,6 @@
 package objects 
 {
 	import starling.core.Starling;
-	import starling.display.DisplayObject;
 	import starling.display.MovieClip;
 	import starling.display.Sprite;
 	import starling.events.KeyboardEvent;
@@ -14,10 +13,8 @@ package objects
 	 * ...
 	 * @author Lee
 	 */
-	public class Player extends Sprite
+	public class Player extends Character
 	{
-		public var CurrentTile:Tile;	
-        private var movie:MovieClip;
 		
 		public var CurrentInventory:Inventory;
 		public var Score:int;
@@ -26,10 +23,11 @@ package objects
 		
 		public function Player(tile:Tile, inventory:Inventory = null) 
 		{
-			if (inventory == null) inventory = new Inventory(0, 0, 0);
-			this.CurrentTile = tile;
-			this.CurrentInventory = inventory;
+			super(tile, "player");
 			
+			if (inventory == null) inventory = new Inventory(0, 0, 0);
+			
+			this.CurrentInventory = inventory;			
 			init();
 		}
 		
@@ -40,31 +38,9 @@ package objects
 			this.NumGems = 0;
 			this.IsMoving = false;
 			
-			buildTexture();
+			super.buildTexture("player");
 			
-			movie.addEventListener(TouchEvent.TOUCH, function(e:TouchEvent):void {
-				var t:Touch = e.getTouch(DisplayObject(e.target));
-				
-				if (t && t.phase == TouchPhase.BEGAN) {
-					CurrentTile.Increment();
-				}
-			});
         }
-		
-		private function buildTexture():void 
-		{					
-			var playerTexture:Vector.<Texture>;
-			
-			playerTexture = Root.assets.getTextures("player");
-			
-			movie = new MovieClip(playerTexture, 10);
-            movie.loop = true;
-            movie.pause();
-            movie.currentFrame = 0;			
-            addChild(movie);
-            
-            Starling.juggler.add(movie);
-		}
 		
 		private function collectTileItems():void 
 		{
@@ -116,10 +92,12 @@ package objects
 								trace("Attempting to collect an invalid item type: " + item.ItemType);
 						}
 						
+						/*
 						trace("Player inventory is now: ");
 						trace(" dynamite: " + CurrentInventory.dynamite);
 						trace(" concrete: " + CurrentInventory.concrete);
 						trace(" acidFlask: " + CurrentInventory.acidFlask);
+						*/
 					}
 					
 					break;
@@ -127,39 +105,18 @@ package objects
 			}
 		}
 		
-		private function move(newTile:Tile):void
+		override protected function move(newTile:Tile):void 
 		{
-			if (this.CurrentTile.ColorIndex == newTile.ColorIndex)
+			
+			if (CurrentTile.ColorIndex == newTile.ColorIndex)
 			{
-				this.CurrentTile = newTile;
-				this.IsMoving = true;
+				super.move(newTile);
 				
+				IsMoving = true;
 				collectTileItems();
-				
-				this.x = CurrentTile.x;
-				this.y = CurrentTile.y;
 			}
 		}
-              
-		public function MoveUp():void 
-		{
-			if (this.CurrentTile.Row > 0) move(Game.TileArray[this.CurrentTile.ID - Constants.NUMCOLUMNS]);
-		} 
 		
-		public function MoveDown():void 
-		{
-			if (this.CurrentTile.Row < Constants.NUMROWS - 1) move(Game.TileArray[this.CurrentTile.ID + Constants.NUMCOLUMNS]);
-		}
-		
-		public function MoveLeft():void 
-		{
-			if (this.CurrentTile.Column > 0) move(Game.TileArray[this.CurrentTile.ID - 1]);
-		}
-		 
-		public function MoveRight():void 
-		{
-			if (this.CurrentTile.Column < Constants.NUMCOLUMNS - 1) move(Game.TileArray[this.CurrentTile.ID + 1]);
-		}
 	}
 
 }

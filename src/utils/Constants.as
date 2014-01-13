@@ -6,6 +6,8 @@ package utils
 	 */
 	public class Constants 
 	{
+		// MODE values are 'development', 'test', and 'production'
+		public static const MODE:String = "development";
 		public static const STAGEWIDTH:int = 480;
         public static const STAGEHEIGHT:int = 320;
 		public static const PADDING:int = 16;

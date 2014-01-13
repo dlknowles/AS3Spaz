@@ -2,6 +2,7 @@ package
 {
 	import objects.GameItem;
 	import objects.Player;
+	import objects.Spaz;
 	import objects.Tile;
 	import starling.core.Starling;
 	import starling.display.Button;
@@ -36,11 +37,13 @@ package
 		//public static var Score:int = 0;
         public static var TileArray:Vector.<Tile>;
 		public static var ItemArray:Vector.<GameItem>;
+		public static var SpazArray:Vector.<Spaz>;
 		
 		private var gamePlayer:Player;
 		private var thisLevel:Level;
 		private var scoreText:TextField;
 		private var turnText:TextField;
+		private var gemText:TextField;
 		private var dynamiteButton:Button;
 		private var concreteButton:Button;
 		private var acidButton:Button;
@@ -66,7 +69,22 @@ package
 			addEventListener(KeyboardEvent.KEY_UP, onKeyUp);			
 			addEventListener(Game.TURN_TAKEN, onTurnTaken);
 			addEventListener(Game.GEM_COLLECTED, onGemCollected);
+			
+			printGems();
         }
+		
+		private function printGems():void 
+		{
+			var gemStr:String = "gems on tiles: ";
+			for (var i:int; i < ItemArray.length; ++i)
+			{
+				if (ItemArray[i].ItemType == int(Constants.ITEMTYPES.GEM))
+				{
+					gemStr += ItemArray[i].CurrentTile.ID + " (active: " + ItemArray[i].IsActive + ", visible: " + ItemArray[i].visible + "), ";
+				}
+			}			
+			trace(gemStr);
+		}
 		
 		private function setTiles():void 
 		{
@@ -186,6 +204,11 @@ package
 			}
 		}
 		
+		private function setSpazArray():void 
+		{
+			
+		}
+		
 		private function drawStatusArea():void 
 		{
 			var statusWidth:int = Constants.STAGEWIDTH - (Constants.NUMCOLUMNS * TileArray[0].width);
@@ -204,9 +227,16 @@ package
 			
 			drawItemButtons();
 			
+			gemText = new TextField(q.width, 40, "Gems Collected: " + gamePlayer.NumGems + " of " + thisLevel.MaxGems, Constants.NORMALFONT, Constants.NORMALFONTSIZE, 0xffffff);
+			gemText.x = Constants.PADDING;
+			gemText.y = Constants.STAGEHEIGHT - Constants.PADDING - 40;
+			gemText.vAlign = VAlign.TOP;
+			gemText.hAlign = HAlign.LEFT;
+			addChild(gemText);
+			
 			turnText = new TextField(q.width, 40, "Turns: " + numTurns, Constants.NORMALFONT, Constants.NORMALFONTSIZE, 0xffffff, true);
 			turnText.x = Constants.PADDING;
-			turnText.y = Constants.STAGEHEIGHT - Constants.PADDING - 40;
+			turnText.y = gemText.y - 40;
             turnText.vAlign = VAlign.TOP;
             turnText.hAlign = HAlign.LEFT;
             addChild(turnText);
@@ -256,6 +286,11 @@ package
 			turnText.text = "Turns: " + numTurns;
 		}
 		
+		private function updateGems():void 
+		{
+			gemText.text = "Gems Collected: " + gamePlayer.NumGems + " of " + thisLevel.MaxGems;
+		}
+		
 		private function onKeyDown(e:KeyboardEvent):void 
 		{
 			var key:int = e.keyCode;
@@ -281,6 +316,7 @@ package
 			}
 			
 			updateScore();
+			updateGems();
 			setItemButtonText();
 		}
 		
@@ -307,6 +343,8 @@ package
 				dispatchEventWith(Game.LEVEL_COMPLETE, true, gamePlayer.Score);
 			}
 			else updateScore();
+			
+			printGems();
 		}
 	}
 	

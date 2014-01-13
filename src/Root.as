@@ -9,6 +9,7 @@ package
     import starling.events.Event;
     import starling.textures.Texture;
     import starling.utils.AssetManager;
+	import utils.Constants;
     import utils.ProgressBar;
 	import screens.Menu;
 	
@@ -27,6 +28,7 @@ package
             addEventListener(Game.GAME_OVER, onGameOver);
 			addEventListener(LevelSelect.SELECT_LEVEL, onSelectLevel);
 			addEventListener(LevelDetails.START_LEVEL, onStartLevel);
+			addEventListener(Game.LEVEL_COMPLETE, onLevelComplete);
         }
         
         public function start(background:Texture, assets:AssetManager):void 
@@ -75,21 +77,44 @@ package
 			// TODO: Add a Game Over screen and show that instead of the Level Selection screen.
             trace("Game Over! Score: " + score);
 			--Game.NumLives;
-            showScene(LevelSelect);
+            switch (Constants.MODE) 
+			{
+				case "development":
+					showScene(LevelSelect);
+					break;
+				default:
+					dispatchEventWith(LevelSelect.SELECT_LEVEL, true, Game.CurrentLevel)
+			}
         }
 		
 		private function onLevelComplete(e:Event, score:int):void 
 		{
 			// TODO: Add a Game Over screen and show that instead of the Level Selection screen.
             trace("You completed Level " + int(Game.CurrentLevel + 1).toString(10) + " with a score of " + score + "!");
-            showScene(LevelSelect);
+            //showScene(LevelSelect);
+			
+			switch (Constants.MODE) 
+			{
+				case "development":
+					showScene(LevelSelect);
+					break;
+				default:
+					dispatchEventWith(LevelSelect.SELECT_LEVEL, true, ++Game.CurrentLevel)
+			}
 		}
         
         private function onStartGame(e:Event, mode:String):void 
         {
             trace("Game Starts! Going to level selector... GameMode: " + mode);
 			Game.CurrentLevel = 0;
-            showScene(LevelSelect);            
+            switch (Constants.MODE) 
+			{
+				case "development":
+					showScene(LevelSelect);
+					break;
+				default:
+					showScene(LevelDetails);
+			}            
         }
         
 		private function onSelectLevel(e:Event, level:int):void 

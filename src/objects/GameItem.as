@@ -15,91 +15,57 @@ package objects
 	 * ...
 	 * @author Lee
 	 */
-	public class GameItem extends Sprite
+	public class GameItem extends GameObject
 	{
-		private var itemType:int;
-        private var movie:MovieClip;
-		
-		public var CurrentTile:Tile;
-		public var IsActive:Boolean;
+		private var itemType:int;	
+		private var typeString:String;
 		
 		public function get ItemType():int { return itemType; }
 		
-		
 		public function GameItem(tile:Tile, type:int) 
-		{
-			this.CurrentTile = tile;
-			this.IsActive = true;
-			this.itemType = type;
-			
-			init();
-		}
-		
-		private function init():void 
-		{
-			buildTexture();
-			
-			movie.addEventListener(TouchEvent.TOUCH, function(e:TouchEvent):void {
-				var t:Touch = e.getTouch(DisplayObject(e.target));
-				
-				if (t && t.phase == TouchPhase.BEGAN) {
-					CurrentTile.Increment();
-				}
-			});
-		}
-		
-		private function buildTexture():void 
-		{				
-			var itemTexture:Vector.<Texture>;
-			
-			switch (itemType) 
+		{			
+			var typeStr:String;
+			switch (type) 
 			{
 				case int(Constants.ITEMTYPES.DYNAMITE):
-					itemTexture = Root.assets.getTextures("dynamite");
+					typeStr = "dynamite";
 					
 					break;
 				case int(Constants.ITEMTYPES.CONCRETE):
-					itemTexture = Root.assets.getTextures("concrete");
+					typeStr = "concrete";
 					
 					break;
 				case int(Constants.ITEMTYPES.ACIDFLASK):
-					itemTexture = Root.assets.getTextures("acidFlask");
+					typeStr = "acidFlask";
 					
 					break;
 				case int(Constants.ITEMTYPES.GEM):
-					itemTexture = Root.assets.getTextures("gem");
+					typeStr = "gem";
 					
 					break;
 				default:
-					trace("Invalid item type in GameItem.buildTexture(): " + itemType)
+					//throw new ArgumentError("Invalid item type: "  + type);
 			}
-			
-			
-			movie = new MovieClip(itemTexture, 10);
-            movie.loop = true;
-            movie.pause();
-            movie.currentFrame = 0;			
-            addChild(movie);
-            
-            Starling.juggler.add(movie);
+			super(tile, typeStr);
+			typeString = typeStr;
+			this.itemType = type;
 		}
 		
 		public function Deactivate():void 
 		{
-			//stage.removeChild(this);
-			this.visible = false;
-			this.IsActive = false;
+			visible = false;
+			IsActive = false;
 		}
 		
 		public function Reactivate(tile:Tile, type:int):void 
 		{
-			this.CurrentTile = tile;
-			this.itemType = type;
+			CurrentTile = tile;
+			itemType = type;
 			
-			buildTexture();
+			buildTexture(typeString);
 			
-			this.visible = true;
-			this.IsActive = true;
+			visible = true;
+			IsActive = true;
 		}
 	}
 

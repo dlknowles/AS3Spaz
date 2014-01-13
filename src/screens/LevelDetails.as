@@ -39,17 +39,20 @@ package screens
 		
 		private function drawUI():void 
 		{
-			// Close/Cancel button -- goes back to level selection
-			var cancelButton:Button = new Button(Root.assets.getTexture("button_normal"), " X ");
-			cancelButton.width = 32;
-			cancelButton.height = 32;
-			cancelButton.fontName = Constants.NORMALFONT;
-			cancelButton.x = Constants.STAGEWIDTH - cancelButton.width - Constants.PADDING;
-			cancelButton.y = Constants.PADDING;
-			cancelButton.addEventListener(Event.TRIGGERED, function():void {
-				dispatchEventWith(Menu.START_GAME, true, "classic");
-			});
-			addChild(cancelButton);
+			if (Constants.MODE == "development")
+			{
+				// Close/Cancel button -- goes back to level selection
+				var cancelButton:Button = new Button(Root.assets.getTexture("button_normal"), " X ");
+				cancelButton.width = 32;
+				cancelButton.height = 32;
+				cancelButton.fontName = Constants.NORMALFONT;
+				cancelButton.x = Constants.STAGEWIDTH - cancelButton.width - Constants.PADDING;
+				cancelButton.y = Constants.PADDING;
+				cancelButton.addEventListener(Event.TRIGGERED, function():void {
+					dispatchEventWith(Menu.START_GAME, true, "classic");
+				});
+				addChild(cancelButton);
+			}
 			
 			if (Game.NumLives > 0)
 			{
