@@ -27,8 +27,9 @@ package objects
 			super(tile, "player");
 			
 			if (inventory == null) inventory = new Inventory(0, 0, 0);
-			
+						
 			this.CurrentInventory = inventory;			
+			
 			init();
 		}
 		

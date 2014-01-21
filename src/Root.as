@@ -1,6 +1,8 @@
 package  
 {
+	import data.Persistance;
     import flash.system.System;
+	import objects.Inventory;
 	import screens.LevelDetails;
 	import screens.LevelSelect;
     import starling.core.Starling;
@@ -72,10 +74,21 @@ package
             });
         }
         
+		private function removeLevelInventory():void 
+		{
+			
+		}
+		
+		private function saveLevelInventory():void
+		{
+			Persistance.PlayerInventory = Game.GamePlayer.CurrentInventory;
+		}
+		
         private function onGameOver(e:Event, score:int):void 
         {
 			// TODO: Add a Game Over screen and show that instead of the Level Selection screen.
             trace("Game Over! Score: " + score);
+			//removeLevelInventory();
 			--Game.NumLives;
             switch (Constants.MODE) 
 			{
@@ -83,15 +96,17 @@ package
 					showScene(LevelSelect);
 					break;
 				default:
-					dispatchEventWith(LevelSelect.SELECT_LEVEL, true, Game.CurrentLevel)
+					dispatchEventWith(LevelSelect.SELECT_LEVEL, true, Persistance.CurrentLevel)
 			}
         }
 		
 		private function onLevelComplete(e:Event, score:int):void 
 		{
 			// TODO: Add a Game Over screen and show that instead of the Level Selection screen.
-            trace("You completed Level " + int(Game.CurrentLevel + 1).toString(10) + " with a score of " + score + "!");
+            trace("You completed Level " + int(Persistance.CurrentLevel + 1).toString(10) + " with a score of " + score + "!");
             //showScene(LevelSelect);
+			
+			saveLevelInventory();
 			
 			switch (Constants.MODE) 
 			{
@@ -99,14 +114,14 @@ package
 					showScene(LevelSelect);
 					break;
 				default:
-					dispatchEventWith(LevelSelect.SELECT_LEVEL, true, ++Game.CurrentLevel)
+					dispatchEventWith(LevelSelect.SELECT_LEVEL, true, ++Persistance.CurrentLevel)
 			}
 		}
         
         private function onStartGame(e:Event, mode:String):void 
         {
             trace("Game Starts! Going to level selector... GameMode: " + mode);
-			Game.CurrentLevel = 0;
+			Persistance.CurrentLevel = 0;
             switch (Constants.MODE) 
 			{
 				case "development":
@@ -120,18 +135,15 @@ package
 		private function onSelectLevel(e:Event, level:int):void 
 		{
 			trace("Selected Level: " + int(level + 1).toString(10));
-			Game.CurrentLevel = level;
+			Persistance.CurrentLevel = level;
 			showScene(LevelDetails);
 		}
 		
 		private function onStartLevel(e:Event):void 
 		{
-			trace("Starting Level " + int(Game.CurrentLevel + 1).toString(10));
+			trace("Starting Level " + int(Persistance.CurrentLevel + 1).toString(10));
 			showScene(Game);
 		}
-		
-		
-		
 		
         private function showScene(screen:Class):void
         {

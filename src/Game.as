@@ -1,8 +1,10 @@
 package 
 {
+	import data.Persistance;
 	import objects.BlockerSpaz;
 	import objects.ChangerSpaz;
 	import objects.GameItem;
+	import objects.Inventory;
 	import objects.Player;
 	import objects.Spaz;
 	import utils.SpazFactory;
@@ -35,7 +37,7 @@ package
 		public static const GEM_COLLECTED:String = "gemCollected";
 		public static const LEVEL_COMPLETE:String = "levelComplete";
 		
-		public static var CurrentLevel:int = 0;
+		//public static var CurrentLevel:int = 0;
 		public static var NumLives:int = 5;
 		//public static var Score:int = 0;
         public static var TileArray:Vector.<Tile>;
@@ -43,6 +45,7 @@ package
 		public static var SpazArray:Vector.<Spaz>;
 		public static var ObstacleArray:Vector.<GameItem>;
 		public static var GamePlayer:Player;
+		//public static var PlayerInventory:Inventory;
 		
 		private var thisLevel:Level;
 		private var scoreText:TextField;
@@ -60,12 +63,15 @@ package
         
         private function init():void 
         {			
-			thisLevel = new Level(Constants.LEVELS[CurrentLevel]);  
+			if (Persistance.PlayerInventory == null) Persistance.PlayerInventory = new Inventory(0, 0, 0);
+			
+			thisLevel = new Level(Constants.LEVELS[Persistance.CurrentLevel]);  
 			
 			numTurns = thisLevel.MaxTurns;
 			
             setTiles();
 			setPlayer();
+			setGameObstacles();
 			setGameItems();
 			setSpazArray();
 			drawStatusArea();
@@ -155,7 +161,7 @@ package
 			var playerTile:Tile = Utilities.GetRandomTile();
 			
 			// TODO: Set player's inventory from saved game data when available.
-			GamePlayer = new Player(playerTile);
+			GamePlayer = new Player(playerTile, Persistance.PlayerInventory);
 			
 			drawPlayer();
 		}
@@ -168,9 +174,13 @@ package
 			addChild(GamePlayer);
 		}
 		
+		private function setGameObstacles():void 
+		{
+			ObstacleArray = new Vector.<GameItem>();
+		}
+		
 		private function setGameItems():void 
 		{			
-			ObstacleArray = new Vector.<GameItem>();
 			ItemArray = new Vector.<GameItem>();
 			var i:int = 0;
 			
@@ -255,6 +265,7 @@ package
             addChild(scoreText);
 			
 			drawItemButtons();
+			drawDPadButtons();
 			
 			gemText = new TextField(q.width, 40, "Gems Collected: " + GamePlayer.NumGems + " of " + thisLevel.MaxGems, Constants.NORMALFONT, Constants.NORMALFONTSIZE, 0xffffff);
 			gemText.x = Constants.PADDING;
@@ -303,6 +314,11 @@ package
 			dynamiteButton.text = "D: " + GamePlayer.CurrentInventory.dynamite;
 			concreteButton.text = "C: " + GamePlayer.CurrentInventory.concrete;
 			acidButton.text = "A: " + GamePlayer.CurrentInventory.acidFlask;
+		}
+		
+		private function drawDPadButtons():void 
+		{
+			
 		}
 		
 		private function updateScore():void 

@@ -1,5 +1,6 @@
 package screens 
 {
+	import data.Persistance;
 	import starling.display.Button;
 	import starling.display.Sprite;
     import starling.events.Event;
@@ -28,7 +29,7 @@ package screens
         
         private function init():void 
         {
-            var textField:TextField = new TextField(250, 50, "Level " + int(Game.CurrentLevel + 1).toString(10),
+            var textField:TextField = new TextField(250, 50, "Level " + int(Persistance.CurrentLevel + 1).toString(10),
                 "Verdana", Constants.TITLEFONTSIZE, 0x0);
             textField.x = (Constants.STAGEWIDTH - textField.width) / 2;
             textField.y = 50;
@@ -80,7 +81,7 @@ package screens
 		
 		private function drawLevelButton(x:Number, y:Number, text:String, eventHandler:Function):void 
 		{
-			var text:String = int(Game.CurrentLevel + 1).toString(10);
+			var text:String = int(Persistance.CurrentLevel + 1).toString(10);
 			var button:Button = new Button(Root.assets.getTexture("button_normal"), text);
 			button.width = 32;
             button.fontName = "Ubuntu";
@@ -88,7 +89,7 @@ package screens
             button.x = x;
             button.y = y;
             button.addEventListener(Event.TRIGGERED, function():void {
-				 dispatchEventWith(START_LEVEL, true, Game.CurrentLevel);
+				 dispatchEventWith(START_LEVEL, true, Persistance.CurrentLevel);
 			});
             addChild(button);
 		}
