@@ -55,11 +55,19 @@ package utils
 			LEFT: 37,
 			RIGHT: 39
 		};
-		public static const ITEMTYPES:Object = {
+		public static const ITEM_TYPES:Object = {
 			DYNAMITE: 1,
 			CONCRETE: 2,
 			ACIDFLASK: 3,
 			GEM: 4
+		};
+		public static const SPAZ_TYPES:Object = {
+			BLOCKER: 1,
+			CHANGER: 2,
+            WALLER: 3,
+            GROUND_POUNDER: 4,
+            LOBBER: 5,
+            SPLITTER: 6
 		};
 	}
 

@@ -57,28 +57,28 @@ package objects
 					{
 						switch (item.ItemType) 
 						{
-							case int(Constants.ITEMTYPES.DYNAMITE):
+							case int(Constants.ITEM_TYPES.DYNAMITE):
 								++this.CurrentInventory.dynamite;
 								this.Score += Constants.BASEITEMPOINTS;
 								item.Deactivate();
 								
 								break;
 								
-							case int(Constants.ITEMTYPES.CONCRETE):
+							case int(Constants.ITEM_TYPES.CONCRETE):
 								++this.CurrentInventory.concrete;
 								this.Score += Constants.BASEITEMPOINTS;
 								item.Deactivate();
 								
 								break;
 								
-							case int(Constants.ITEMTYPES.ACIDFLASK):
+							case int(Constants.ITEM_TYPES.ACIDFLASK):
 								++this.CurrentInventory.acidFlask;
 								this.Score += Constants.BASEITEMPOINTS;
 								item.Deactivate();
 								
 								break;
 								
-							case int(Constants.ITEMTYPES.GEM):
+							case int(Constants.ITEM_TYPES.GEM):
 								++this.NumGems;
 								this.Score += Constants.GEMPOINTS;
 								item.Deactivate();

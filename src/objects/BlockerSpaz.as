@@ -4,9 +4,8 @@ package objects
 	 * ...
 	 * @author Lee
 	 */
-	public class BlockerSpaz extends Character implements ISpaz 
-	{
-		
+	public class BlockerSpaz extends Spaz
+	{	
 		public function BlockerSpaz(tile:Tile) 
 		{
 			super(tile, "blocker");

@@ -27,19 +27,19 @@ package objects
 			var typeStr:String;
 			switch (type) 
 			{
-				case int(Constants.ITEMTYPES.DYNAMITE):
+				case int(Constants.ITEM_TYPES.DYNAMITE):
 					typeStr = "dynamite";
 					
 					break;
-				case int(Constants.ITEMTYPES.CONCRETE):
+				case int(Constants.ITEM_TYPES.CONCRETE):
 					typeStr = "concrete";
 					
 					break;
-				case int(Constants.ITEMTYPES.ACIDFLASK):
+				case int(Constants.ITEM_TYPES.ACIDFLASK):
 					typeStr = "acidFlask";
 					
 					break;
-				case int(Constants.ITEMTYPES.GEM):
+				case int(Constants.ITEM_TYPES.GEM):
 					typeStr = "gem";
 					
 					break;

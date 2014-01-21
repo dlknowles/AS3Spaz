@@ -1,9 +1,15 @@
 package 
 {
+	import objects.BlockerSpaz;
+	import objects.ChangerSpaz;
 	import objects.GameItem;
+	import objects.GroundPounderSpaz;
+	import objects.LobberSpaz;
 	import objects.Player;
 	import objects.Spaz;
+	import objects.SplitterSpaz;
 	import objects.Tile;
+	import objects.WallerSpaz;
 	import starling.core.Starling;
 	import starling.display.Button;
     import starling.display.Image;
@@ -63,6 +69,7 @@ package
             setTiles();
 			setPlayer();
 			setGameItems();
+			setSpazArray();
 			drawStatusArea();
 						
 			addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
@@ -78,7 +85,7 @@ package
 			var gemStr:String = "gems on tiles: ";
 			for (var i:int; i < ItemArray.length; ++i)
 			{
-				if (ItemArray[i].ItemType == int(Constants.ITEMTYPES.GEM))
+				if (ItemArray[i].ItemType == int(Constants.ITEM_TYPES.GEM))
 				{
 					gemStr += ItemArray[i].CurrentTile.ID + " (active: " + ItemArray[i].IsActive + ", visible: " + ItemArray[i].visible + "), ";
 				}
@@ -168,29 +175,29 @@ package
 			
 			for (i = 0; i < thisLevel.Dynamite; ++i)
 			{
-				addGameItem(Utilities.GetRandomTile(), int(Constants.ITEMTYPES.DYNAMITE));
+				addGameItem(Utilities.GetRandomTile(), int(Constants.ITEM_TYPES.DYNAMITE));
 			}
 			
 			for (i = 0; i < thisLevel.Concrete; ++i)
 			{
-				addGameItem(Utilities.GetRandomTile(), int(Constants.ITEMTYPES.CONCRETE));			
+				addGameItem(Utilities.GetRandomTile(), int(Constants.ITEM_TYPES.CONCRETE));			
 			}
 			
 			for (i = 0; i < thisLevel.AcidFlasks; ++i)
 			{
-				addGameItem(Utilities.GetRandomTile(), int(Constants.ITEMTYPES.ACIDFLASK));			
+				addGameItem(Utilities.GetRandomTile(), int(Constants.ITEM_TYPES.ACIDFLASK));			
 			}
 			
 			for (i = 0; i < thisLevel.MaxGems; ++i)
 			{
-				addGameItem(Utilities.GetRandomTile(), int(Constants.ITEMTYPES.GEM));
+				addGameItem(Utilities.GetRandomTile(), int(Constants.ITEM_TYPES.GEM));
 			}
 			
 			drawGameItems();
 		}
 		
 		private function addGameItem(tile:Tile, type:int):void 
-		{
+		{		
 			ItemArray.push(new GameItem(tile, type));	
 		}
 		
@@ -206,7 +213,45 @@ package
 		
 		private function setSpazArray():void 
 		{
+			SpazArray = new Vector.<Spaz>();
 			
+			for (var i:int = 0, len:int = thisLevel.SpazArray.length; i < len; ++i)
+			{
+				switch (int(thisLevel.SpazArray[i])) 
+				{
+					case int(Constants.SPAZ_TYPES.BLOCKER):
+						SpazArray.push(new BlockerSpaz(Utilities.GetRandomTile()));
+						break;
+					case int(Constants.SPAZ_TYPES.CHANGER):
+						SpazArray.push(new ChangerSpaz(Utilities.GetRandomTile()));
+						break;
+					case int(Constants.SPAZ_TYPES.WALLER):
+						SpazArray.push(new WallerSpaz(Utilities.GetRandomTile()));
+						break;
+					case int(Constants.SPAZ_TYPES.GOUND_POUNDER):
+						SpazArray.push(new GroundPounderSpaz(Utilities.GetRandomTile()));
+						break;
+					case int(Constants.SPAZ_TYPES.LOBBER):
+						SpazArray.push(new LobberSpaz(Utilities.GetRandomTile()));
+						break;
+					case int(Constants.SPAZ_TYPES.SPLITTER):
+						SpazArray.push(new SplitterSpaz(Utilities.GetRandomTile()));
+						break;
+					default:
+				}
+				SpazArray.push(new Spaz(Utilities.GetRandomTile()));
+			}
+			drawSpaz();
+		}
+		
+		private function drawSpaz():void 
+		{
+			for (var i:int = 0, len:int = SpazArray.length; i < len; ++i)
+			{
+				SpazArray[i].x = SpazArray[i].CurrentTile.x;
+				SpazArray[i].y = SpazArray[i].CurrentTile.y;
+				addChild(SpazArray[i]);
+			}
 		}
 		
 		private function drawStatusArea():void 

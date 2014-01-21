@@ -9,7 +9,7 @@ package objects
 	 */
 	public class Spaz extends Character 
 	{		
-		public function Spaz(tile:Tile) 
+		public function Spaz(tile:Tile, texturePrefix:String = "spaz") 
 		{
 			super(tile, "spaz");
 			
