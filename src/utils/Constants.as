@@ -59,7 +59,10 @@ package utils
 			DYNAMITE: 1,
 			CONCRETE: 2,
 			ACIDFLASK: 3,
-			GEM: 4
+			GEM: 4,
+			WALL: 5,
+			CRATER: 6,
+			BLOB: 7
 		};
 		public static const SPAZ_TYPES:Object = {
 			BLOCKER: 1,

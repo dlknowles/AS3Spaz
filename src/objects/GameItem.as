@@ -43,6 +43,18 @@ package objects
 					typeStr = "gem";
 					
 					break;
+				case int(Constants.ITEM_TYPES.WALL):
+					typeStr = "wall";
+					
+					break;
+				case int(Constants.ITEM_TYPES.CRATER):
+					typeStr = "crater";
+					
+					break;
+				case int(Constants.ITEM_TYPES.BLOB):
+					typeStr = "blob";
+					
+					break;
 				default:
 					//throw new ArgumentError("Invalid item type: "  + type);
 			}
@@ -50,22 +62,13 @@ package objects
 			typeString = typeStr;
 			this.itemType = type;
 		}
-		
-		public function Deactivate():void 
+				
+		public function ReactivateAs(tile:Tile, type:int):void 
 		{
-			visible = false;
-			IsActive = false;
-		}
-		
-		public function Reactivate(tile:Tile, type:int):void 
-		{
-			CurrentTile = tile;
-			itemType = type;
+			super.Reactivate(tile);
 			
+			itemType = type;			
 			buildTexture(typeString);
-			
-			visible = true;
-			IsActive = true;
 		}
 	}
 

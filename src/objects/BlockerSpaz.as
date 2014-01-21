@@ -1,5 +1,6 @@
 package objects 
 {
+	import utils.Constants;
 	/**
 	 * ...
 	 * @author Lee
@@ -8,7 +9,7 @@ package objects
 	{	
 		public function BlockerSpaz(tile:Tile) 
 		{
-			super(tile, "blocker");
+			super(tile, Constants.SPAZ_TYPES.BLOCKER, "blocker");
 		}
 		
 	}

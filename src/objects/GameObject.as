@@ -34,7 +34,7 @@ package objects
 			
 			movie = new MovieClip(playerTexture, 10);
             movie.loop = true;
-            movie.pause();
+            // movie.pause();
             movie.currentFrame = 0;			
             addChild(movie);
             
@@ -44,11 +44,25 @@ package objects
 				var t:Touch = e.getTouch(DisplayObject(e.target));
 				
 				if (t && t.phase == TouchPhase.BEGAN) {
+					// trace("object touched...");
 					CurrentTile.Increment();
+					dispatchEventWith(Game.TURN_TAKEN, true);
 				}
 			});
 		}
 		
+		public function Deactivate():void 
+		{
+			visible = false;
+			IsActive = false;
+		}
+		
+		public function Reactivate(tile:Tile):void 
+		{
+			CurrentTile = tile;
+			visible = true;
+			IsActive = true;
+		}
 	}
 
 }

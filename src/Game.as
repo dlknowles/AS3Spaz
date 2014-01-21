@@ -3,13 +3,10 @@ package
 	import objects.BlockerSpaz;
 	import objects.ChangerSpaz;
 	import objects.GameItem;
-	import objects.GroundPounderSpaz;
-	import objects.LobberSpaz;
 	import objects.Player;
 	import objects.Spaz;
-	import objects.SplitterSpaz;
+	import utils.SpazFactory;
 	import objects.Tile;
-	import objects.WallerSpaz;
 	import starling.core.Starling;
 	import starling.display.Button;
     import starling.display.Image;
@@ -44,8 +41,9 @@ package
         public static var TileArray:Vector.<Tile>;
 		public static var ItemArray:Vector.<GameItem>;
 		public static var SpazArray:Vector.<Spaz>;
+		public static var ObstacleArray:Vector.<GameItem>;
+		public static var GamePlayer:Player;
 		
-		private var gamePlayer:Player;
 		private var thisLevel:Level;
 		private var scoreText:TextField;
 		private var turnText:TextField;
@@ -76,6 +74,8 @@ package
 			addEventListener(KeyboardEvent.KEY_UP, onKeyUp);			
 			addEventListener(Game.TURN_TAKEN, onTurnTaken);
 			addEventListener(Game.GEM_COLLECTED, onGemCollected);
+			addEventListener(Spaz.SPLIT_SPAZ, onSpazSplit);
+			addEventListener(Spaz.OBSTACLE_ADDED, onObstacleAdded);
 			
 			printGems();
         }
@@ -155,21 +155,22 @@ package
 			var playerTile:Tile = Utilities.GetRandomTile();
 			
 			// TODO: Set player's inventory from saved game data when available.
-			gamePlayer = new Player(playerTile);
+			GamePlayer = new Player(playerTile);
 			
 			drawPlayer();
 		}
 		
 		private function drawPlayer():void 
 		{
-			gamePlayer.x = gamePlayer.CurrentTile.x;
-			gamePlayer.y = gamePlayer.CurrentTile.y;
+			GamePlayer.x = GamePlayer.CurrentTile.x;
+			GamePlayer.y = GamePlayer.CurrentTile.y;
 			
-			addChild(gamePlayer);
+			addChild(GamePlayer);
 		}
 		
 		private function setGameItems():void 
 		{			
+			ObstacleArray = new Vector.<GameItem>();
 			ItemArray = new Vector.<GameItem>();
 			var i:int = 0;
 			
@@ -211,46 +212,29 @@ package
 			}
 		}
 		
+		public function AddSpaz(newSpaz:Spaz):void
+		{
+			SpazArray.push(newSpaz);
+			newSpaz.x = newSpaz.CurrentTile.x;
+			newSpaz.y = newSpaz.CurrentTile.y;
+			addChild(newSpaz);
+		}
+		
+		public function AddObstacle(newObstacle:GameItem):void
+		{
+			ObstacleArray.push(newObstacle);
+			newObstacle.x = newObstacle.CurrentTile.x;
+			newObstacle.y = newObstacle.CurrentTile.y;
+			addChild(newObstacle);
+		}
+		
 		private function setSpazArray():void 
 		{
 			SpazArray = new Vector.<Spaz>();
 			
 			for (var i:int = 0, len:int = thisLevel.SpazArray.length; i < len; ++i)
 			{
-				switch (int(thisLevel.SpazArray[i])) 
-				{
-					case int(Constants.SPAZ_TYPES.BLOCKER):
-						SpazArray.push(new BlockerSpaz(Utilities.GetRandomTile()));
-						break;
-					case int(Constants.SPAZ_TYPES.CHANGER):
-						SpazArray.push(new ChangerSpaz(Utilities.GetRandomTile()));
-						break;
-					case int(Constants.SPAZ_TYPES.WALLER):
-						SpazArray.push(new WallerSpaz(Utilities.GetRandomTile()));
-						break;
-					case int(Constants.SPAZ_TYPES.GOUND_POUNDER):
-						SpazArray.push(new GroundPounderSpaz(Utilities.GetRandomTile()));
-						break;
-					case int(Constants.SPAZ_TYPES.LOBBER):
-						SpazArray.push(new LobberSpaz(Utilities.GetRandomTile()));
-						break;
-					case int(Constants.SPAZ_TYPES.SPLITTER):
-						SpazArray.push(new SplitterSpaz(Utilities.GetRandomTile()));
-						break;
-					default:
-				}
-				SpazArray.push(new Spaz(Utilities.GetRandomTile()));
-			}
-			drawSpaz();
-		}
-		
-		private function drawSpaz():void 
-		{
-			for (var i:int = 0, len:int = SpazArray.length; i < len; ++i)
-			{
-				SpazArray[i].x = SpazArray[i].CurrentTile.x;
-				SpazArray[i].y = SpazArray[i].CurrentTile.y;
-				addChild(SpazArray[i]);
+				AddSpaz(SpazFactory.GetSpaz(int(thisLevel.SpazArray[i])));
 			}
 		}
 		
@@ -263,7 +247,7 @@ package
 			q.y = 0;
             addChild(q);
             
-			scoreText = new TextField(q.width, 40, "Score: " + gamePlayer.Score, Constants.NORMALFONT, Constants.NORMALFONTSIZE, 0xffffff, true);
+			scoreText = new TextField(q.width, 40, "Score: " + GamePlayer.Score, Constants.NORMALFONT, Constants.NORMALFONTSIZE, 0xffffff, true);
 			scoreText.x = Constants.PADDING;
 			scoreText.y = Constants.PADDING;
             scoreText.vAlign = VAlign.TOP;
@@ -272,7 +256,7 @@ package
 			
 			drawItemButtons();
 			
-			gemText = new TextField(q.width, 40, "Gems Collected: " + gamePlayer.NumGems + " of " + thisLevel.MaxGems, Constants.NORMALFONT, Constants.NORMALFONTSIZE, 0xffffff);
+			gemText = new TextField(q.width, 40, "Gems Collected: " + GamePlayer.NumGems + " of " + thisLevel.MaxGems, Constants.NORMALFONT, Constants.NORMALFONTSIZE, 0xffffff);
 			gemText.x = Constants.PADDING;
 			gemText.y = Constants.STAGEHEIGHT - Constants.PADDING - 40;
 			gemText.vAlign = VAlign.TOP;
@@ -316,14 +300,14 @@ package
 		
 		private function setItemButtonText():void 
 		{
-			dynamiteButton.text = "D: " + gamePlayer.CurrentInventory.dynamite;
-			concreteButton.text = "C: " + gamePlayer.CurrentInventory.concrete;
-			acidButton.text = "A: " + gamePlayer.CurrentInventory.acidFlask;
+			dynamiteButton.text = "D: " + GamePlayer.CurrentInventory.dynamite;
+			concreteButton.text = "C: " + GamePlayer.CurrentInventory.concrete;
+			acidButton.text = "A: " + GamePlayer.CurrentInventory.acidFlask;
 		}
 		
 		private function updateScore():void 
 		{
-			scoreText.text = "Score: " + gamePlayer.Score;
+			scoreText.text = "Score: " + GamePlayer.Score;
 		}
 		
 		private function updateTurns():void 
@@ -333,7 +317,7 @@ package
 		
 		private function updateGems():void 
 		{
-			gemText.text = "Gems Collected: " + gamePlayer.NumGems + " of " + thisLevel.MaxGems;
+			gemText.text = "Gems Collected: " + GamePlayer.NumGems + " of " + thisLevel.MaxGems;
 		}
 		
 		private function onKeyDown(e:KeyboardEvent):void 
@@ -342,22 +326,22 @@ package
 			
 			if (key == Constants.KEYS.W || key == Constants.KEYS.UP)
 			{
-				if (!gamePlayer.IsMoving) gamePlayer.MoveUp();
+				if (!GamePlayer.IsMoving) GamePlayer.MoveUp();
 			}
 			
 			if (key == Constants.KEYS.A || key == Constants.KEYS.LEFT)
 			{
-				if(!gamePlayer.IsMoving) gamePlayer.MoveLeft();				
+				if(!GamePlayer.IsMoving) GamePlayer.MoveLeft();				
 			}
 			
 			if (key == Constants.KEYS.S || key == Constants.KEYS.DOWN) 
 			{
-				if(!gamePlayer.IsMoving) gamePlayer.MoveDown();
+				if(!GamePlayer.IsMoving) GamePlayer.MoveDown();
 			}
 			
 			if (key == Constants.KEYS.D || key == Constants.KEYS.RIGHT) 
 			{
-				if(!gamePlayer.IsMoving) gamePlayer.MoveRight();
+				if(!GamePlayer.IsMoving) GamePlayer.MoveRight();
 			}
 			
 			updateScore();
@@ -367,29 +351,50 @@ package
 		
 		private function onKeyUp(e:KeyboardEvent):void 
 		{
-			gamePlayer.IsMoving = false;
+			GamePlayer.IsMoving = false;
 		}
 		
 		private function onTurnTaken(e:Event):void 
 		{
+			trace("entering onTurnTaken()");
+			// if all turns have been taken, trigger game over
 			if (--numTurns == 0) 
 			{
 			    removeEventListeners();
-				dispatchEventWith(Game.GAME_OVER, true, gamePlayer.Score);
+				dispatchEventWith(Game.GAME_OVER, true, GamePlayer.Score);
 			}
-			else updateTurns();
+			else // otherwise, decrement the turns and let the spazes do their updates
+			{
+				trace("updating turns...");
+				updateTurns();
+				
+				for (var i:int = 0, len:int = SpazArray.length; i < len; ++i)
+				{
+					SpazArray[i].Update();
+				}
+			}
 		}
 		
 		private function onGemCollected(e:Event):void 
 		{
-			if (gamePlayer.NumGems == thisLevel.MaxGems) 
+			if (GamePlayer.NumGems == thisLevel.MaxGems) 
 			{
 			    removeEventListeners();
-				dispatchEventWith(Game.LEVEL_COMPLETE, true, gamePlayer.Score);
+				dispatchEventWith(Game.LEVEL_COMPLETE, true, GamePlayer.Score);
 			}
 			else updateScore();
 			
 			printGems();
+		}
+		
+		private function onSpazSplit(e:Event, newSpaz:Spaz):void 
+		{
+			AddSpaz(newSpaz);
+		}
+		
+		private function onObstacleAdded(e:Event, newObstacle:GameItem):void 
+		{
+			AddObstacle(newObstacle);
 		}
 	}
 	

@@ -9,6 +9,7 @@ package objects
     import starling.events.TouchPhase;
 	import starling.textures.Texture;
 	import utils.Constants;
+	import utils.Utilities;
 	/**
 	 * ...
 	 * @author Lee
@@ -108,7 +109,7 @@ package objects
 		override protected function move(newTile:Tile):void 
 		{
 			
-			if (CurrentTile.ColorIndex == newTile.ColorIndex)
+			if (CurrentTile.ColorIndex == newTile.ColorIndex && !Utilities.IsTileOccupied(newTile))
 			{
 				super.move(newTile);
 				

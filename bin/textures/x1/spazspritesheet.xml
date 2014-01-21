@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <TextureAtlas imagePath="spazspritesheet.png">
+	<SubTexture name="blank" x="128" y="32" width="32" height="32" />
     <SubTexture name="tile1Red" x="0" y="0" width="32" height="32" />
     <SubTexture name="tile2Green" x="32" y="0" width="32" height="32" />
     <SubTexture name="tile3Blue" x="64" y="0" width="32" height="32" />
@@ -12,5 +13,13 @@
 	<SubTexture name="concrete" x="32" y="32" width="32" height="32" />
 	<SubTexture name="acidFlask" x="64" y="32" width="32" height="32" />
 	<SubTexture name="spaz" x="96" y="32" width="32" height="32" />
-	<SubTexture name="blank" x="128" y="32" width="32" height="32" />
+	<SubTexture name="blocker" x="96" y="32" width="32" height="32" />
+	<SubTexture name="changer" x="96" y="32" width="32" height="32" />
+	<SubTexture name="waller" x="96" y="32" width="32" height="32" />
+	<SubTexture name="groundpounder" x="96" y="32" width="32" height="32" />
+	<SubTexture name="lobber" x="96" y="32" width="32" height="32" />
+	<SubTexture name="splitter" x="96" y="32" width="32" height="32" />
+	<SubTexture name="wall" x="128" y="32" width="32" height="32" />
+	<SubTexture name="crater" x="128" y="32" width="32" height="32" />
+	<SubTexture name="blob" x="128" y="32" width="32" height="32" />
 </TextureAtlas>

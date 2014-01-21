@@ -113,11 +113,22 @@ package objects
                 colorIndex = 0;
             }
             
-            movie.currentFrame = colorIndex;
-			
-			dispatchEventWith(Game.TURN_TAKEN, true);
+            movie.currentFrame = colorIndex;			
         }   
    
+		public function SetColor(index:int):void 
+		{
+			if (index < 0 || index >= maxColors) 
+			{
+				colorIndex = 0;
+			}
+			else
+			{
+				colorIndex = index;
+			}
+			
+			movie.currentFrame = colorIndex;
+		}
     }
     
 }
